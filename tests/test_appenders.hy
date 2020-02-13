@@ -61,8 +61,11 @@
                })
 
 (log! f-logger :file:report "HELLO FILE SYSTEM")
+(log! f-logger :file:report "OK.")
 (with [fh (open f-path)]
-  (assert (= (.read fh)
-             "HELLO FILE SYSTEM\n") "file content mismatch")
+  (setv txt (.read fh))
+  (print f-path "\n" (repr txt))
+  (assert (= txt "HELLO FILE SYSTEM\nOK.\n")
+          (+ "file content mismatch: " (repr txt)))
   (print "OK ->spit-appender\n"))
 (os.remove f-path)

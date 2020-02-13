@@ -17,7 +17,7 @@
 
 (defn ->spit-appender [filename]
   (partial (fn [fname data]
-             (with [fh (open fname "w")]
+             (with [fh (open fname "a")]
                (.write fh (or (:formatted data None)
                               (.join " " (:args data))))
                (.write fh "\n")))
