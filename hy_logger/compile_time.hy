@@ -1,5 +1,5 @@
 (setv *get-compile-time-filter-def*
       (fn []
-        (import [os [getenv]])
-        (getenv "HY_LOGGER_FILTER"
-                "(accept >=debug)")))
+        (import os)
+        (os.getenv "HY_LOGGER_FILTER"
+                   "")))
