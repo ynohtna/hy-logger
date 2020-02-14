@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 from setuptools import setup
 
-with open("README.md", "r") as fh:
+with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 setup(name="hy_logger",
-      version="0.2.1a2",
-      description="An easily extensible logging sub-system for Hy",
+      version="0.2.3a1",
+      description="A lightweight, highly pluggable logging sub-system for Hy",
       long_description=long_description,
-      long_description_content_type="text/markdown",
+      long_description_content_type="text/x-rst",
       author="Anthony Bowyer-Lowe",
       author_email="anthony@lowbroweye.com",
       url="https://github.com/ynohtna/hy_logger",
