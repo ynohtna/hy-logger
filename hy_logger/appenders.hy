@@ -11,7 +11,8 @@
   (partial (fn [pre data]
              (print #* pre
                     #* (or (:formatted data None)
-                           (:args data))))
+                           (->> (:args data)
+                                (map str)))))
            prefixes))
 
 
@@ -19,6 +20,8 @@
   (partial (fn [fname data]
              (with [fh (open fname "a")]
                (.write fh (or (:formatted data None)
-                              (.join " " (:args data))))
+                              (.join " "
+                                     (->> (:args data)
+                                          (map str)))))
                (.write fh "\n")))
            filename))

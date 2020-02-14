@@ -34,13 +34,19 @@
                     (log! p-logger :appender:fatal "*RIP*"))
                  "OK watch this!\nOK *RIP*\n")
 
+(assert-captured '(log! p-logger :appender:non-strings:report 1 2 {:a 1  :b 2} (* 2 3 4))
+                 "OK 1 2 {HyKeyword('a'): 1, HyKeyword('b'): 2} 24\n")
+
+(print "OK ->print-appender")
+
+
 ;; ----------------------------------------
 (setv collected []
       c-logger {
                 :appenders {
                             :coll (->collector collected)
-                            }
-                })
+                           }
+               })
 
 (log! c-logger :collector:report "do")
 (assert (= 1 (len collected)))
@@ -49,9 +55,10 @@
 (log! c-logger :collector:report "mi")
 (assert (= 3 (len collected)))
 
+(print "OK ->collector\n")
+
 
 ;; ----------------------------------------
-(log! p-logger :collector:report "->collector\n")
 
 (setv [fh f-path] (tempfile.mkstemp)
       f-logger {
