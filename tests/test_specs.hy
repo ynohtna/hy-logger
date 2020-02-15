@@ -29,7 +29,10 @@
             forms)))
 
 
-(assert-specs [:pingu
+(assert-specs [:
+               [] dbg]
+
+              [:pingu
                ["pingu"] dbg]
 
               [:pingu:warn

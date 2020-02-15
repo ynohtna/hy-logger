@@ -11,7 +11,7 @@
                 (->> (filter identity))
                 list)
         maybe-lvl (first (cut nss -1))
-        lvl?    (.fullmatch *level-name-regex* maybe-lvl)
+        lvl?    (.fullmatch *level-name-regex* (or maybe-lvl ""))
         lvl     (if lvl?
                     (str->lvl maybe-lvl)
                     default))
