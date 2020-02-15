@@ -48,11 +48,12 @@ Basic Usage
 Concepts
 --------
 
-Event Spec
+Log Events
 ~~~~~~~~~~
 
-Namespaces, log levels. Staticly defined.
-Default level.
+Single log statement, intended for side-effects.
+
+log! macro, logger, spec.
 
 
 Logger
@@ -63,6 +64,13 @@ Can be passed as an argument, composed, manipulated.
 Different definition for separate modules.
 
 Example of an application global def...
+
+
+Event Spec
+~~~~~~~~~~
+
+Namespaces, log levels. Staticly defined.
+Default level.
 
 
 Filtering
