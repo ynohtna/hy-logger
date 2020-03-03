@@ -1,14 +1,3 @@
-;; parse-spec; @compile-filtered; @runtime-filtered;
-;; logger def: runtime-filter; output-fn; appenders;
-;; *default-log-level*
-
-;; (log :spec:debug "blah" (+ 1 2) "mumbo jumbo")
-;; ... parse spec (cache and lookup for speed & observation)
-;;     discard entire form if filtered by compile-check
-;;     else
-;;     emit form that tests runtime-check, builds log def,
-;;         then dispatches through appenders.
-
 (eval-and-compile
   (import [.levels [*default-level*]]
           [.compile-time [*get-compile-time-filter-def*]]))
