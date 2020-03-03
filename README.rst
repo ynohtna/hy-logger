@@ -11,6 +11,7 @@ Features
 --------
 
 * Minimal API surface, designed for easy extensibility.
+* Zero dependencies.
 * Configured from a simple map or maps: no external configuration file needed.
   Configs are easily passed around, exported, composed and programmatically mutated.
 * Log events can be tagged as belonging to multiple namespaces.
@@ -41,7 +42,8 @@ Basic Usage
   (defmacro log [&rest args]
     `(log! logger #* args))
 
-  (log :debug "I said howdy, weird.")
+  (log :debug "Hello, world.")
+  ; Hello, world.
 
 
 
@@ -53,15 +55,16 @@ Log Events
 
 Single log statement, intended for side-effects.
 
-log! macro, logger, spec.
+log! macro, logger, spec, arguments.
 
 
 Logger
 ~~~~~~
 
 Simple map defining (all optional): filters, middlewares, appenders.
-Can be passed as an argument, composed, manipulated.
-Different definition for separate modules.
+Can be passed as an argument, composed, duplicated, manipulated.
+No singleton definition affords different logging semantics for separate modules.
+Users expected to write convenience macros to reduce boilerplate.
 
 Example of an application global def...
 
@@ -83,7 +86,7 @@ Run-time filtering, filtering mini-DSL.
 Middleware
 ~~~~~~~~~~
 
-Augmenting, manipulating, formatting, filtering.
+Augmenting, manipulating, formatting, filtering, hy-repr.
 Time stamps, stack trace, style map, highlighting.
 
 
@@ -103,6 +106,28 @@ To Do
 -----
 
 - Code tests and error handling for malformed log expression where namespace spec is non-static.
-- Modifiable compile-time determination mechanism?
+- Modifiable compile-time determination mechanism? **In-progress**
 - Determine real use case for dynamic namespacing of events (are there any?) and
   relax the constraint that log event specs must be specified staticly.
+- Util macro to generate convenience functions for a namespace over the different log levels.
+
+
+.. code:: Lisp
+
+   ;; ping.hy
+   (require [hy-logger [gen-log-macros]])
+
+   (setv ping-logger { ; ...custom logger definition
+                     })
+
+   (gen-log-macros :ping ping-logger plog-)
+
+   ;; macros now available named plog-t, plog-d, plog-i, plog-w, plog-e, plog-f, plog-r,
+   ;; as well as the longer forms: plog-trace, plog-debug, plog-info, etc...
+   ;; i.e.: (defmacro plog-debug [&rest args]
+   ;;          `(log! :ping:debug ping-logger #* args))
+
+   (defn do-ping []
+     ;...
+     (plog-info "done a ping!"))
+
