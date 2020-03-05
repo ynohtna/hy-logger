@@ -1,10 +1,11 @@
-Hy Logger
+hy-logger
 =========
 
-A simple, lightweight, pluggable logging sub-system for Hy, strongly inspired by
-Peter Taoussanis' Timbre_ library for Clojure.
+A simple, lightweight, pluggable logging sub-system for Hy_ (a dialect of Lisp embedded in Python),
+with a design strongly inspired by Peter Taoussanis' Timbre_ library for Clojure.
 
 .. _Timbre: https://github.com/ptaoussanis/timbre
+.. _Hy: https://github.com/hylang/hy
 
 
 Features
@@ -12,17 +13,17 @@ Features
 
 * Minimal API surface, designed for easy extensibility.
 * Zero dependencies.
-* Configured from a simple map or maps: no external configuration file needed.
+* Configured from a simple map: no external configuration file needed.
   Configs are easily passed around, exported, composed and programmatically mutated.
-* Log events can be tagged as belonging to multiple namespaces.
+* Log events can be optionally tagged as belonging to multiple namespaces to enable custom filtering,
+  processing, output routing, etc.
+* Built-in filtering mini-DSL to clearly specify event accept/deny conditions against log levels.
 * Compile-time filtering to exclude log statements from source for zero overhead production builds.
 * Pluggable run-time filtering against log levels and event namespaces.
-* Built-in filtering mini-DSL to clearly specify accept/deny conditions.
-  Custom run-time filters are easily used instead.
 * Middleware model to augment log data with timestamps, thread/process info, manipulate arguments,
   decode stack traces, etc. Middleware can also further filter log events.
 * Simple multiple output appender API, called with raw log event data.
-  Supports structured value logging instead of strings, async dispatch rate limiting, etc.
+  Supports structured value logging, async dispatch rate limiting, etc.
 
 
 Basic Usage
@@ -33,17 +34,29 @@ Basic Usage
   (import [hy-logger.appenders [->print-appender]])
   (require [hy-logger [log!]])
 
+  ;; logger definition
   (setv logger {
+                ; send log events to a single appender which simply prints all
+                ; log event arguments to sys.stdout
                 :appenders [(->print-appender)]
                })
 
-  (log! logger :foo:bar:debug "hello world")
+  (log! logger :foo:bar:debug "Hello world." "Is this your password?" (+ 1000 230 4))
+  ; => Hello world. Is this your password? 1234
 
+  ;; "foo" and "bar" are the namespaces associated with the log event.
+  ;; "debug" is it's log level.
+
+  ;; define a helper macro to avoid having to repeatedly specify the logger.
   (defmacro log [&rest args]
     `(log! logger #* args))
 
-  (log :debug "Hello, world.")
-  ; Hello, world.
+  ;; Namespaces are optional per log event.
+  ;; A single log level must always be specified, chosen from:
+  ;;   [:trace  :debug  :info  :warn  :error  :fatal  :report]
+
+  (log :info "hy-logger operational")
+  ; => Hello, world.
 
 
 
