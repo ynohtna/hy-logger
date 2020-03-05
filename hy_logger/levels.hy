@@ -1,5 +1,6 @@
 (import [re [compile :as re/compile]])
 
+
 (setv *log-levels* {
                     :trace    5
                     :debug   10
@@ -15,8 +16,8 @@
 (setv *log-levels-names* (set (map name *log-levels*)))
 
 (setv *level-name-regex* (re/compile (+ "("
-                                   #* (interpose "|" *log-levels-names*)
-                                   ")")))
+                                        #* (interpose "|" *log-levels-names*)
+                                        ")")))
 
 
 (defn str->lvl [s &optional default]
