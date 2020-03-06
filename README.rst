@@ -118,12 +118,13 @@ More Usage Examples
 To Do
 -----
 
+- **Complete documentation.**
 - Code tests and error handling for malformed log expression where namespace spec is non-static.
 - Modifiable compile-time determination mechanism? **In-progress**
+- Improved syntax checking & error reporting.
 - Determine real use case for dynamic namespacing of events (are there any?) and
   relax the constraint that log event specs must be specified staticly.
 - Util macro to generate convenience functions for a namespace over the different log levels.
-
 
 .. code:: Lisp
 
