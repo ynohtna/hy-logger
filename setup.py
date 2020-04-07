@@ -5,7 +5,7 @@ with open("README.rst", "r") as fh:
     long_description = fh.read()
 
 setup(name="hy_logger",
-      version="0.2.3a1",
+      version="0.3.1a1",
       description="A lightweight, highly pluggable logging sub-system for Hy",
       long_description=long_description,
       long_description_content_type="text/x-rst",
